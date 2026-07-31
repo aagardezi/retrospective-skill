@@ -1,6 +1,6 @@
 # Antigravity Retrospective Skill (`retrospective`) v0.2.1
 
-A post-session retrospective framework for **Antigravity** and **JetSki** AI coding agents. 
+A post-session retrospective framework for **Antigravity** AI coding agents. 
 
 Run `/retro` or `/retrospective` at the end of any session or workspace project to analyze what happened, measure tool performance and context waste, track git commit stats, attribute subagent contributions, identify friction signals, and generate concrete proposals to improve your agent rules, skills, and workflows.
 
@@ -28,7 +28,7 @@ Run `/retro` or `/retrospective` at the end of any session or workspace project 
 
 As AI coding agents work through complex projects, they execute tens or hundreds of steps—reading files, running bash commands, spawning subagents, and reacting to user feedback. Over long sessions, identifying where context was wasted, why errors occurred, or which subagent dispatches were effective can be difficult.
 
-The **Antigravity Retrospective Skill** automates this post-session reflection. It scans your local Antigravity session storage (`~/.gemini/jetski/brain/` and `~/.gemini/jetski/conversations/`), extracts complete step-by-step trajectory telemetry, and synthesizes a comprehensive post-project retrospective report (`./RETRO.md`).
+The **Antigravity Retrospective Skill** automates this post-session reflection. It scans your local Antigravity session storage (`conversations/*.db` and `brain/<UUID>/`), extracts complete step-by-step trajectory telemetry, and synthesizes a comprehensive post-project retrospective report (`./RETRO.md`).
 
 ---
 
@@ -60,7 +60,7 @@ The **Antigravity Retrospective Skill** automates this post-session reflection. 
 │                        Local Antigravity Storage                         │
 ├─────────────────────────────────────┬───────────────────────────────────┤
 │  SQLite DBs                         │  Brain Trajectories               │
-│  ~/.gemini/jetski/conversations/*.db│  ~/.gemini/jetski/brain/<UUID>/   │
+│  conversations/*.db                 │  brain/<UUID>/                    │
 └──────────────────┬──────────────────┴─────────────────┬─────────────────┘
                    │                                    │
                    ▼                                    ▼
@@ -87,7 +87,7 @@ The **Antigravity Retrospective Skill** automates this post-session reflection. 
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
-1. **Database & Brain Inspection**: Antigravity logs every step, tool call, thinking trace, and user request to `transcript.jsonl` inside a UUID directory in `~/.gemini/jetski/brain/<UUID>/`. Workspace metadata is stored in SQLite databases in `~/.gemini/jetski/conversations/*.db`.
+1. **Database & Brain Inspection**: Antigravity logs every step, tool call, thinking trace, and user request to `transcript.jsonl` inside a UUID directory in `brain/<UUID>/`. Workspace metadata is stored in SQLite databases in `conversations/*.db`.
 2. **Telemetry Extraction**: The Python script `extract_antigravity_session.py` scans these files using standard library modules (`sqlite3`, `json`, `glob`, `re`, `subprocess`).
 3. **Synthesis & Export**: The data is formatted into structured JSON and compiled into a rich `./RETRO.md` file.
 
